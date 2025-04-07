@@ -1,0 +1,23 @@
+{
+  "start": "node index.js",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "name": "server_run",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arcan12/Servidor.git"
+  },
+  "author": "Nathan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Arcan12/Servidor/issues"
+  },
+  "homepage": "https://github.com/Arcan12/Servidor#readme",
+  "description": ""
+}
