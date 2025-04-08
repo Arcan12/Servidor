@@ -1,38 +1,41 @@
-// 1. Importar o módulo express
-const express = require('express');
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-// 2. Criar uma instância do aplicativo Express
-const app = express();
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-// 3. Definir a porta em que o servidor irá escutar
-const port = 3000;
+var app = express();
 
-// 4. Rota principal
-app.get('/', (req, res) => {
-    res.send('Olá Mundo!');
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-// 5. Rota para listar usuários
-app.get('/usuarios', (req, res) => {
-    res.send('Lista de usuários');
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-// 6. Rota para criar um usuário
-app.post('/usuarios', (req, res) => {
-    res.send('Usuário criado');
-});
-
-// 7. Rota para atualizar um usuário
-app.put('/usuarios/:id', (req, res) => {
-    res.send(`Usuário com ID ${req.params.id} atualizado`);
-});
-
-// 8. Rota para deletar um usuário
-app.delete('/usuarios/:id', (req, res) => {
-    res.send(`Usuário com ID ${req.params.id} deletado`);
-});
-
-// 9. Iniciar o servidor
-app.listen(port, () => {
-    console.log(`App ouvindo na porta ${port}!`);
-});
+module.exports = app;
